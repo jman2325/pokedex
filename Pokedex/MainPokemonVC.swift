@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
+class MainPokemonVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
     @IBOutlet weak var collection: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -42,6 +42,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         do {
             musicPlayer = try AVAudioPlayer(contentsOf: URL(string: path)!)
             musicPlayer.prepareToPlay()
+            musicPlayer.volume = 0.1
             musicPlayer.numberOfLoops = -1
             musicPlayer.play()
         } catch let error as NSError {

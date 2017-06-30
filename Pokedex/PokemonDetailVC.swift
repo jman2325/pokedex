@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PokemonDetailVC: UIViewController {
 
@@ -25,13 +26,48 @@ class PokemonDetailVC: UIViewController {
     
     
     
-    
     var pokemon: Pokemon!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nameLable.text = pokemon.name
+        nameLable.text = pokemon.name.capitalized
+        
+        let image = UIImage(named: "\(pokemon.pokedexId)")
+        
+        mainImage.image = image
+        currentEvoImage.image = image
+        pokedexLabel.text = "\(pokemon.pokedexId)"
+        
+        pokemon.downloadPokemonDetails {
+            print("did arrive here?")
+            // Whatever we write will only be called when network call is complete.
+            self.updateUI()
+        }
+    }
+    
+    
+    func updateUI() {
+        attackLabel.text = pokemon.attack
+        defenseLabel.text = pokemon.defense
+        heightLabel.text = pokemon.height
+        weightLabel.text = pokemon.weight
+        typeLabel.text = pokemon.type
+        descriptionLabel.text = pokemon.description
+        
+        if pokemon.nextEvolutionId == "" {
+            
+            evoLabel.text = "No Evolutions"
+            nextEvoImage.isHidden = true
+            
+        } else {
+        
+            nextEvoImage.isHidden = false
+            nextEvoImage.image = UIImage(named: pokemon.nextEvolutionId)
+            let str = "Next Evolution: \(pokemon.nextEvolutionName) - LVL \(pokemon.nextEvolutionLevel)"
+            evoLabel.text = str
+        }
+        
         
     }
 
@@ -39,5 +75,19 @@ class PokemonDetailVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
